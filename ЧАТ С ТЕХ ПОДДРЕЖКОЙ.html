@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Чат с поддержкой</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+  const translations = {"ru": {"welcome": "Добро пожаловать,", "logout": "Выйти", "orders": "Заказы", "profile": "Профиль", "main": "Главная", "confirm_order": "Подтвердить заказ", "address": "Адрес", "car_number": "Номер авто", "upload_photo": "Фото автомобиля", "choose_time": "Выберите время", "current_order": "Текущий заказ", "cancel_order": "Отменить заказ", "complete_order": "Завершить заказ", "chat_support": "Чат с поддержкой", "send": "Отправить"}, "kz": {"welcome": "Қош келдіңіз,", "logout": "Шығу", "orders": "Тапсырыстар", "profile": "Профиль", "main": "Басты бет", "confirm_order": "Тапсырысты растау", "address": "Мекенжай", "car_number": "Көлік нөмірі", "upload_photo": "Көліктің суреті", "choose_time": "Уақытты таңдаңыз", "current_order": "Ағымдағы тапсырыс", "cancel_order": "Тапсырысты болдырмау", "complete_order": "Тапсырысты аяқтау", "chat_support": "Қолдау чаты", "send": "Жіберу"}, "en": {"welcome": "Welcome,", "logout": "Logout", "orders": "Orders", "profile": "Profile", "main": "Home", "confirm_order": "Confirm Order", "address": "Address", "car_number": "Car Number", "upload_photo": "Upload Car Photo", "choose_time": "Choose Time", "current_order": "Current Order", "cancel_order": "Cancel Order", "complete_order": "Complete Order", "chat_support": "Chat with Support", "send": "Send"}};
+  let currentLang = localStorage.getItem("lang") || "ru";
+
+  function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem("lang", lang);
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (translations[lang][key]) {
+        el.textContent = translations[lang][key];
+      }
+    });
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    setLang(currentLang);
+    document.querySelectorAll("[data-lang]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        setLang(btn.getAttribute("data-lang"));
+      });
+    });
+  });
+
+  function toggleDarkMode() {
+    document.documentElement.classList.toggle('dark');
+    localStorage.setItem("theme", document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+  }
+
+  if (localStorage.getItem("theme") === 'dark') {
+    document.documentElement.classList.add("dark");
+  }
+</script>
+</head>
+<body class="bg-white min-h-screen">
+<button class="fixed top-2 right-2 bg-gray-800 text-white px-3 py-1 text-xs rounded-lg z-50" onclick="toggleDarkMode()">🌙</button>
+
+<!-- Header -->
+<header class="bg-[#007AFF] text-white px-4 py-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<a class="text-white text-xl font-bold cursor-pointer" onclick="history.back()">←</a>
+<span class="text-white text-lg font-semibold" data-i18n="main">Главная</span>
+</div>
+<div class="flex justify-end gap-2 text-sm">
+<button class="hover:underline text-gray-500" data-lang="ru">🇷🇺 Рус</button>
+<button class="hover:underline text-gray-500" data-lang="kz">🇰🇿 Қаз</button>
+<button class="hover:underline text-gray-500" data-lang="en">🇬🇧 Eng</button>
+</div>
+</div>
+</header>
+<!-- Chat window -->
+<main class="p-4 pb-20 flex flex-col gap-4">
+<!-- Message from support -->
+<div class="flex items-start gap-2">
+<div class="bg-gray-100 p-3 rounded-lg max-w-[70%]">
+<p class="text-sm text-gray-800">Здравствуйте! Чем можем помочь?</p>
+</div>
+</div>
+<!-- Message from user -->
+<div class="flex items-end justify-end">
+<div class="bg-[#007AFF] text-white p-3 rounded-lg max-w-[70%]">
+<p class="text-sm">Здравствуйте, у меня не пришло подтверждение заказа.</p>
+</div>
+</div>
+<!-- Message from support -->
+<div class="flex items-start gap-2">
+<div class="bg-gray-100 p-3 rounded-lg max-w-[70%]">
+<p class="text-sm text-gray-800">Проверьте SMS, возможно, оно попало в спам. Сейчас повторим отправку ✅</p>
+</div>
+</div>
+</main>
+<!-- Input field -->
+<div class="fixed bottom-0 left-0 w-full bg-white border-t px-4 py-3 flex items-center gap-2">
+<input class="flex-1 border rounded-full px-4 py-2" placeholder="Напишите сообщение..." type="text"/>
+<button class="bg-[#007AFF] text-white px-4 py-2 rounded-full font-semibold">➤</button>
+</div>
+</body>
+</html>
