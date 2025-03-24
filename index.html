@@ -6,6 +6,21 @@
   <title>Добро пожаловать</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+    const translations = {
+      ru: { welcome: "Добро пожаловать в Автомойку", choose: "Выберите вашу роль для входа в систему:", client: "Клиент", washer: "Мойщик", admin: "Администратор" },
+      kz: { welcome: "Автожууға қош келдіңіз", choose: "Кіру үшін рөліңізді таңдаңыз:", client: "Клиент", washer: "Жуушы", admin: "Әкімші" },
+      en: { welcome: "Welcome to Car Wash", choose: "Choose your role to enter:", client: "Client", washer: "Washer", admin: "Admin" }
+    };
+    let currentLang = localStorage.getItem("lang") || "ru";
+    function setLang(lang) {
+      currentLang = lang;
+      localStorage.setItem("lang", lang);
+      document.querySelector('[data-i18n="welcome"]').textContent = translations[lang].welcome;
+      document.querySelector('[data-i18n="choose"]').textContent = translations[lang].choose;
+      document.querySelector('[data-i18n="client"]').textContent = translations[lang].client;
+      document.querySelector('[data-i18n="washer"]').textContent = translations[lang].washer;
+      document.querySelector('[data-i18n="admin"]').textContent = translations[lang].admin;
+    }
     function goTo(role) {
       switch(role) {
         case 'client': window.location.href = 'для клиентов.html'; break;
@@ -13,17 +28,32 @@
         case 'admin': window.location.href = 'Админ пан СТАТИСТИКА.html'; break;
       }
     }
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    }
+    window.addEventListener("DOMContentLoaded", () => {
+      setLang(currentLang);
+      if (localStorage.getItem("theme") === 'dark') {
+        document.documentElement.classList.add("dark");
+      }
+    });
   </script>
 </head>
-<body class="bg-gradient-to-br from-blue-200 to-blue-500 min-h-screen flex items-center justify-center">
-  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">🚗 Добро пожаловать в Автомойку</h1>
-    <p class="text-gray-600 mb-8">Выберите вашу роль для входа в систему:</p>
-
+<body class="bg-gradient-to-br from-blue-200 to-blue-500 dark:from-gray-900 dark:to-gray-800 min-h-screen flex items-center justify-center">
+  <button onclick="toggleDarkMode()" class="fixed top-2 right-2 bg-gray-800 text-white px-3 py-1 text-xs rounded-lg z-50">🌙</button>
+  <div class="absolute top-2 left-2 flex gap-2">
+    <button onclick="setLang('ru')" class="bg-white text-sm rounded px-2 py-1">🇷🇺</button>
+    <button onclick="setLang('kz')" class="bg-white text-sm rounded px-2 py-1">🇰🇿</button>
+    <button onclick="setLang('en')" class="bg-white text-sm rounded px-2 py-1">🇬🇧</button>
+  </div>
+  <div class="bg-white dark:bg-gray-900 dark:text-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-6" data-i18n="welcome">Добро пожаловать в Автомойку</h1>
+    <p class="text-gray-600 dark:text-gray-300 mb-8" data-i18n="choose">Выберите вашу роль для входа в систему:</p>
     <div class="space-y-4">
-      <button onclick="goTo('client')" class="w-full bg-[#007AFF] text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition">👤 Клиент</button>
-      <button onclick="goTo('washer')" class="w-full bg-green-500 text-white py-3 rounded-xl font-semibold hover:bg-green-600 transition">🧽 Мойщик</button>
-      <button onclick="goTo('admin')" class="w-full bg-gray-700 text-white py-3 rounded-xl font-semibold hover:bg-gray-800 transition">🛠 Администратор</button>
+      <button onclick="goTo('client')" class="w-full bg-[#007AFF] text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition" data-i18n="client">Клиент</button>
+      <button onclick="goTo('washer')" class="w-full bg-green-500 text-white py-3 rounded-xl font-semibold hover:bg-green-600 transition" data-i18n="washer">Мойщик</button>
+      <button onclick="goTo('admin')" class="w-full bg-gray-700 text-white py-3 rounded-xl font-semibold hover:bg-gray-800 transition" data-i18n="admin">Администратор</button>
     </div>
   </div>
 </body>
