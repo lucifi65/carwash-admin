@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Добро пожаловать</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function goTo(role) {
+      switch(role) {
+        case 'client': window.location.href = 'для клиентов.html'; break;
+        case 'washer': window.location.href = 'для мойщиков.html'; break;
+        case 'admin': window.location.href = 'Админ пан СТАТИСТИКА.html'; break;
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-br from-blue-200 to-blue-500 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">🚗 Добро пожаловать в Автомойку</h1>
+    <p class="text-gray-600 mb-8">Выберите вашу роль для входа в систему:</p>
+
+    <div class="space-y-4">
+      <button onclick="goTo('client')" class="w-full bg-[#007AFF] text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition">👤 Клиент</button>
+      <button onclick="goTo('washer')" class="w-full bg-green-500 text-white py-3 rounded-xl font-semibold hover:bg-green-600 transition">🧽 Мойщик</button>
+      <button onclick="goTo('admin')" class="w-full bg-gray-700 text-white py-3 rounded-xl font-semibold hover:bg-gray-800 transition">🛠 Администратор</button>
+    </div>
+  </div>
+</body>
+</html>
